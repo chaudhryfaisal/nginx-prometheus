@@ -9,6 +9,9 @@ LABEL maintainer="niklas.ekman@gmail.com"
 ARG RESTY_VERSION="1.13.6.1"
 ARG RESTY_OPENSSL_VERSION="1.0.2k"
 ARG RESTY_PCRE_VERSION="8.41"
+ARG NGINX_MODULE_VTS_VERSION="0.1.15"
+ARG NGINX_MODULE_STS_VERSION="0.1.0"
+ARG NGINX_MODULE_STREAM_STS_VERSION="0.1.0"
 ARG RESTY_J="1"
 ARG RESTY_CONFIG_OPTIONS="\
     --with-file-aio \
@@ -71,12 +74,12 @@ RUN apk add --no-cache --virtual .build-deps \
         libxslt \
         zlib \
     && cd /tmp \
-    && curl -sfSL  https://github.com/vozlt/nginx-module-vts/archive/master.zip -o nginx-module-vts-master.zip \
-    && unzip -qq nginx-module-vts-master.zip \
-    && curl -sfSL https://github.com/vozlt/nginx-module-sts/archive/master.zip -o nginx-module-sts-master.zip \
-    && unzip -qq nginx-module-sts-master.zip \
-    && curl -sfSL https://github.com/vozlt/nginx-module-stream-sts/archive/master.zip -o nginx-module-stream-sts-master.zip \
-    && unzip -qq nginx-module-stream-sts-master.zip \
+    && curl -sfSL https://github.com/vozlt/nginx-module-vts/archive/v${NGINX_MODULE_VTS_VERSION}.zip -o nginx-module-vts.zip \
+    && unzip -qq nginx-module-vts.zip \
+    && curl -sfSL https://github.com/vozlt/nginx-module-sts/archive/v${NGINX_MODULE_STS_VERSION}.zip -o nginx-module-sts.zip \
+    && unzip -qq nginx-module-sts.zip \
+    && curl -sfSL https://github.com/vozlt/nginx-module-stream-sts/archive/v${NGINX_MODULE_STREAM_STS_VERSION}.zip -o nginx-module-stream-sts.zip \
+    && unzip -qq nginx-module-stream-sts.zip \
     && curl -sfSL https://www.openssl.org/source/openssl-${RESTY_OPENSSL_VERSION}.tar.gz -o openssl-${RESTY_OPENSSL_VERSION}.tar.gz \
     && tar xzf openssl-${RESTY_OPENSSL_VERSION}.tar.gz \
     && curl -sfSL https://ftp.pcre.org/pub/pcre/pcre-${RESTY_PCRE_VERSION}.tar.gz -o pcre-${RESTY_PCRE_VERSION}.tar.gz \
