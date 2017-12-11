@@ -120,8 +120,6 @@ log_by_lua_block {
 
 server {
     listen 9527;
-    #allow 192.168.0.0/16;
-    #deny all;
 
     location /metrics {
         content_by_lua_block {
