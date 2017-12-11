@@ -121,6 +121,11 @@ log_by_lua_block {
 server {
     listen 9527;
 
+    location /status {
+        vhost_traffic_status_display;
+        vhost_traffic_status_display_format html;
+    }
+
     location /metrics {
         content_by_lua_block {
             if ngx.var.connections_active ~= nil then
