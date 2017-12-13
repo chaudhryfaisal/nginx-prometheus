@@ -1,7 +1,7 @@
 # Dockerfile - alpine
 # https://github.com/openresty/docker-openresty
 
-FROM alpine:3.6
+FROM lsiobase/alpine:3.6
 
 LABEL maintainer="niklas.ekman@gmail.com"
 
@@ -42,9 +42,9 @@ ARG RESTY_CONFIG_OPTIONS="\
     --with-stream \
     --with-stream_ssl_module \
     --with-threads \
-    --add-module=/tmp/nginx-module-vts-master  \
-    --add-module=/tmp/nginx-module-sts-master  \
-    --add-module=/tmp/nginx-module-stream-sts-master \    
+    --add-module=/tmp/nginx-module-vts-${NGINX_MODULE_VTS_VERSION} \
+    --add-module=/tmp/nginx-module-sts-${NGINX_MODULE_STS_VERSION} \
+    --add-module=/tmp/nginx-module-stream-sts-${NGINX_MODULE_STREAM_STS_VERSION} \
     "
 ARG RESTY_CONFIG_OPTIONS_MORE=""
 
