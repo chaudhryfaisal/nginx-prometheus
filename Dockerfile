@@ -1,7 +1,7 @@
 # Dockerfile - alpine
 # https://github.com/openresty/docker-openresty
 
-FROM lsiobase/alpine:3.6
+FROM alpine:3.6
 
 LABEL maintainer="niklas.ekman@gmail.com"
 
