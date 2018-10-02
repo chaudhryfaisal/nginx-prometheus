@@ -1,17 +1,20 @@
 # Dockerfile - alpine
 # https://github.com/openresty/docker-openresty
 
-FROM alpine:3.6
+ARG RESTY_IMAGE_BASE="alpine"
+ARG RESTY_IMAGE_TAG="3.8"
+
+FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
 
 LABEL maintainer="niklas.ekman@gmail.com"
 
 # Docker Build Arguments
-ARG RESTY_VERSION="1.13.6.1"
-ARG RESTY_OPENSSL_VERSION="1.0.2k"
-ARG RESTY_PCRE_VERSION="8.41"
-ARG NGINX_MODULE_VTS_VERSION="0.1.15"
-ARG NGINX_MODULE_STS_VERSION="0.1.0"
-ARG NGINX_MODULE_STREAM_STS_VERSION="0.1.0"
+ARG RESTY_VERSION="1.13.6.2"
+ARG RESTY_OPENSSL_VERSION="1.0.2p"
+ARG RESTY_PCRE_VERSION="8.42"
+ARG NGINX_MODULE_VTS_VERSION="0.1.18"
+ARG NGINX_MODULE_STS_VERSION="0.1.1"
+ARG NGINX_MODULE_STREAM_STS_VERSION="0.1.1"
 ARG RESTY_J="1"
 ARG RESTY_CONFIG_OPTIONS="\
     --with-file-aio \
@@ -48,8 +51,15 @@ ARG RESTY_CONFIG_OPTIONS="\
     "
 ARG RESTY_CONFIG_OPTIONS_MORE=""
 
+LABEL resty_version="${RESTY_VERSION}"
+LABEL resty_openssl_version="${RESTY_OPENSSL_VERSION}"
+LABEL resty_pcre_version="${RESTY_PCRE_VERSION}"
+LABEL resty_config_options="${RESTY_CONFIG_OPTIONS}"
+LABEL resty_config_options_more="${RESTY_CONFIG_OPTIONS_MORE}"
+
 # These are not intended to be user-specified
 ARG _RESTY_CONFIG_DEPS="--with-openssl=/tmp/openssl-${RESTY_OPENSSL_VERSION} --with-pcre=/tmp/pcre-${RESTY_PCRE_VERSION}"
+
 
 # 1) Install apk dependencies
 # 2) Download and untar OpenSSL, PCRE, and OpenResty
@@ -95,14 +105,14 @@ RUN apk add --no-cache --virtual .build-deps \
         openssl-${RESTY_OPENSSL_VERSION} \
         openssl-${RESTY_OPENSSL_VERSION}.tar.gz \
         openresty-${RESTY_VERSION}.tar.gz openresty-${RESTY_VERSION} \
-        pcre-${RESTY_PCRE_VERSION}.tar.gz pcre-${RESTY_PCRE_VERSION} \ 
+        pcre-${RESTY_PCRE_VERSION}.tar.gz pcre-${RESTY_PCRE_VERSION} \
         nginx-module-* \
     && apk del .build-deps \
     && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \
     && ln -sf /dev/stderr /usr/local/openresty/nginx/logs/error.log
 
 # Add additional binaries into PATH for convenience
-ENV PATH=$PATH:/usr/local/openresty/luajit/bin/:/usr/local/openresty/nginx/sbin/:/usr/local/openresty/bin/
+ENV PATH=$PATH:/usr/local/openresty/luajit/bin:/usr/local/openresty/nginx/sbin:/usr/local/openresty/bin
 
 # Copy nginx configuration files
 COPY nginx.conf /usr/local/openresty/nginx/conf/nginx.conf
