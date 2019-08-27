@@ -2,16 +2,16 @@
 # https://github.com/openresty/docker-openresty
 
 ARG RESTY_IMAGE_BASE="alpine"
-ARG RESTY_IMAGE_TAG="3.8"
+ARG RESTY_IMAGE_TAG="3.9"
 
 FROM ${RESTY_IMAGE_BASE}:${RESTY_IMAGE_TAG}
 
 LABEL maintainer="niklas.ekman@gmail.com"
 
 # Docker Build Arguments
-ARG RESTY_VERSION="1.13.6.2"
-ARG RESTY_OPENSSL_VERSION="1.0.2p"
-ARG RESTY_PCRE_VERSION="8.42"
+ARG RESTY_VERSION="1.15.8.1"
+ARG RESTY_OPENSSL_VERSION="1.1.1c"
+ARG RESTY_PCRE_VERSION="8.43"
 ARG NGINX_MODULE_VTS_VERSION="0.1.18"
 ARG NGINX_MODULE_STS_VERSION="0.1.1"
 ARG NGINX_MODULE_STREAM_STS_VERSION="0.1.1"
@@ -82,9 +82,8 @@ RUN apk add --no-cache --virtual .build-deps \
         geoip \
         libgcc \
         libxslt \
-        zlib \
-    && cd /tmp \
-    && curl -sfSL https://github.com/vozlt/nginx-module-vts/archive/v${NGINX_MODULE_VTS_VERSION}.zip -o nginx-module-vts.zip \
+        zlib 
+RUN cd /tmp && curl -sfSL https://github.com/vozlt/nginx-module-vts/archive/v${NGINX_MODULE_VTS_VERSION}.zip -o nginx-module-vts.zip \
     && unzip -qq nginx-module-vts.zip \
     && curl -sfSL https://github.com/vozlt/nginx-module-sts/archive/v${NGINX_MODULE_STS_VERSION}.zip -o nginx-module-sts.zip \
     && unzip -qq nginx-module-sts.zip \
